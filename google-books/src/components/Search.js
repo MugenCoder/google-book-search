@@ -1,40 +1,60 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, {Component} from 'react';
+import API from '../utils/API';
 
-function Nav(){
-    return (
-        <ul className="nav nav-tabs">
-        <li className="nav-item">
-          <Link to="/" className={window.location.pathname === "/" ? "nav-link active" : "nav-link"}>
-            Home
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link
-            to="/about"
-            className={window.location.pathname === "/about" ? "nav-link active" : "nav-link"}
-          >
-            About
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link
-            to="/discover"
-            className={window.location.pathname === "/discover" ? "nav-link active" : "nav-link"}
-          >
-            Discover
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link
-            to="/search"
-            className={window.location.pathname === "/search" ? "nav-link active" : "nav-link"}
-          >
-            Search
-          </Link>
-        </li>
-      </ul>
-    )
+class Search extends Component{
+    state = {
+        userInput: "",
+        results: {}
+    }
+    handleInputChange = event => {
+        // copy
+        let name = event.target.name;
+        let value = event.target.value;
+
+        // modify
+
+        // setState
+        this.setState({
+            [name]: value
+        });
+    }
+
+    handleSubmit = event => {
+        event.preventDefault();
+        //copy
+        let input = this.state.userInput;
+
+        // modify
+
+        // setState
+        API.search(input)
+        .then( results => {
+            this.setState({ results: results.data });
+        });
+    }
+
+    render(){
+        return (
+            <div className="container">
+                <form
+                onSubmit={this.handleSubmit}
+                >
+                <input 
+                type="text" 
+                name="userInput"
+                onChange={this.handleInputChange} 
+                value={this.state.userInput}/>
+                <button type="submit" value="submit">Search</button>
+                </form>
+                <div>Search {this.props.match.params.query}</div>
+                
+                { typeof this.state.results.message !== 'undefined' ? this.state.results.message.map( src => {
+                    return <div><img src={src} />   </div>
+                }) : ""}
+            </div>
+            )
+    }
+    
 }
 
-export default Nav;
+export default Search;
