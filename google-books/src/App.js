@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { Component, Fragment} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Home from './components/Home';
+import About from './components/About';
+import Discover from './components/Discover';
+import Search from './components/Search';
+import Nav from './components/Nav';
 
-function App() {
+class App extends Component {
+  render() {
   return (
     <div className="App">
       <header className="App-header">
@@ -21,6 +27,7 @@ function App() {
       </header>
     </div>
   );
+  }
 }
 
 export default App;
